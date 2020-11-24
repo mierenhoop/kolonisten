@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/kolonisten
+kolonisten.so
+kolonisten.dylib
+kolonisten.dll
+kolonisten.a
+kolonisten.lib
+kolonisten-test-*
+*.exe
+*.o
+*.obj
+*.lst

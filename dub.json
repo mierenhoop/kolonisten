@@ -1,0 +1,16 @@
+{
+	"authors": [
+		"mauritsmlt"
+	],
+	"copyright": "Copyright © 2020, mauritsmlt",
+	"dependencies": {
+		"bindbc-raylib": "~>0.9.0",
+		"raylib-d": "~>3.0.3"
+	},
+	"description": "A minimal D application.",
+	"libs": [
+		"raylib"
+	],
+	"license": "proprietary",
+	"name": "kolonisten"
+}
