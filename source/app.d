@@ -1,6 +1,7 @@
 import std.stdio;
 import raylib;
 import board;
+import drawing;
 
 void main()
 {
@@ -10,7 +11,8 @@ void main()
     scope (exit)
         CloseWindow();
 
-    auto camera = Camera(Vector3(0.0f, 28.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f ), Vector3(0.0f, 1.0f, 0.0f), 45.0f);
+    auto camera = Camera(Vector3(28.0f, 28.0f, 28.0f), Vector3(0.0f, 0.0f,
+            0.0f), Vector3(0.0f, 1.0f, 0.0f), 45.0f);
 
     SetCameraMode(camera, 1);
 
