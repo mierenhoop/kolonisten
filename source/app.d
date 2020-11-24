@@ -27,14 +27,27 @@ class Node
     void draw()
     {
         Vector2 pos = position;
-        DrawCylinder(Vector3(pos.x, 0.0, pos.y), 0.5, 0.5, 0.5, 6, Colors.SKYBLUE);
+        Color color;
+        switch (type)
+        {
+        case Type.Lumber:
+            color = Colors.GREEN;
+            break;
+        case Type.Ore:
+            color = Colors.GRAY;
+            break;
+        default:
+            throw new Error("Node type doesn't exist"); 
+        }
+        DrawCylinder(Vector3(pos.x, 0.0, pos.y), 0.5, 0.5, 0.1, 6, color);
     }
 
     @property Vector2 position()
     {
         Vector2 pos;
         pos.y = cast(float) _indices[0];
-        pos.x = cast(float) _indices[1];
+        float len = cast(float) _board.nodes[_indices[0]].length;
+        pos.x = cast(float) _indices[1] - len / 2;
         return pos;
     }
 
@@ -67,6 +80,7 @@ class Board
 
     void draw()
     {
+        DrawCube(Vector3()
         import std.algorithm.iteration : each;
         nodes.each!(each!(node => node.draw()));
     }
@@ -92,7 +106,7 @@ private:
 
 void main()
 {
-    auto board = new Board(5, 5);
+    auto board = new Board(9, 9);
 
     InitWindow(800, 480, "kolonisten");
     scope (exit)
@@ -100,7 +114,7 @@ void main()
 
     auto camera = Camera(Vector3(18.0f, 28.0f, 18.0f), Vector3(0.0f, 0.0f, 0.0f ), Vector3(0.0f, 1.0f, 0.0f), 45.0f);
 
-    SetCameraMode(camera, 2);
+    SetCameraMode(camera, 0);
 
     SetTargetFPS(60);
 
@@ -116,7 +130,7 @@ void main()
 
         BeginMode3D(camera);
 
-        DrawGrid(20, 1.0f);
+        DrawCube(Vector3(0, 0, 0), 1000, 0.05, 1000, Colors.GOLD);
 
         board.draw();
 
