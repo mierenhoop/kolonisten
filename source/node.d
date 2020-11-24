@@ -43,9 +43,9 @@ class Node
     @property Vector2 position()
     {
         Vector2 pos;
-        pos.y = cast(float) _indices[0];
+        pos.y = - cast(float) _board.width / 2 + cast(float) _indices[0] + 0.5;
         float len = cast(float) _board.nodes[_indices[0]].length;
-        pos.x = cast(float) _indices[1] - len / 2;
+        pos.x = cast(float) _indices[1] - len / 2 + 0.5;
         return pos;
     }
 

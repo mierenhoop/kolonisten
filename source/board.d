@@ -13,7 +13,9 @@ class Board
         this.width = width;
         this.height = height;
         nodes.length = height;
-        import std.range, std.algorithm, std.math;
+        import std.range : iota, array;
+        import std.algorithm.iteration : map;
+        import std.math : abs;
 
         int mh = (- cast(int)height) / 2;
         nodes = iota(height)
@@ -30,7 +32,6 @@ class Board
 
     void draw()
     {
-        DrawCube(Vector3(), 1, 1, 1, Colors.WHITE);
         import std.algorithm.iteration : each;
         nodes.each!(each!(node => node.draw()));
     }
