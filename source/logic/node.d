@@ -6,6 +6,7 @@ import board;
 struct Road
 {
     int player = -1;
+    Node[2] parents;
 }
 
 struct Building
@@ -18,6 +19,7 @@ struct Building
 
     int player = -1;
     Type type;
+    Node[3] parents;
 }
 
 class Node
@@ -29,6 +31,8 @@ class Node
     }
 
     Type type;
+
+    bool blocked;
 
     debug bool selected;
 
@@ -76,15 +80,42 @@ class Node
         }
     }
 
+    // Houses get indexed starting from the top going clockwise.
+    void addBuilding(Building bdg, uint index)
+    {
+        assert(bdg.player != -1);
+        if (_buildings[index].player == -1) {
+            bdg.parents[0] = this;
+            _buildings[index] = bdg;
+        }
+
+        auto nb1 = neighbour((index + 5) % 6);
+        auto nb2 = neighbour(index);
+        if (nb1 !is null) {
+            bdg.parents[1] = nb1;
+            nb1._buildings[(index + 3) % 6] = bdg;
+        }
+        if (nb2 !is null) {
+            bdg.parents[2] = nb2;
+            nb2._buildings[(index + 3) % 6] = bdg;
+        }
+    }
+
     void addRoad(Road road, uint index)
     {
         assert(road.player != -1);
-        if (_roads[index].player == -1) _roads[index] = road;
+        if (_roads[index].player == -1) {
+            road.parents[0] = this;
+            _roads[index] = road;
+        }
 
         // If a neighbour exists, add road to it too.
         // The road placed at the neighbour should be on the opposite side.
         auto nb = neighbour(index);
-        if (nb !is null) nb._roads[(index + 3) % 6] = road;
+        if (nb !is null) {
+            road.parents[1] = nb;
+            nb._roads[(index + 3) % 6] = road;
+        }
     }
 
     Road[6] _roads;
