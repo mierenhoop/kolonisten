@@ -31,6 +31,7 @@ void draw(Node n)
         default:
             throw new Error("Node type doesn't exist");
         }
+        debug if (selected) color = Colors.BLACK;
         DrawCylinder(Vector3(pos.x, 0.0, pos.y), 0.5, 0.5, 0.1, 6, color);
     }
 }
