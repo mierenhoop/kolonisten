@@ -23,6 +23,14 @@ class Board
     {
     }
 
+    void getAvailabeRoads(int player)
+    {
+        foreach (node; nodes)
+        {
+
+        }
+    }
+
     invariant
     {
         assert(height & 1);

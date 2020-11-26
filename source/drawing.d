@@ -32,7 +32,7 @@ void draw(Node n)
             throw new Error("Node type doesn't exist");
         }
         debug if (selected) color = Colors.BLACK;
-        DrawCylinder(Vector3(pos.x, 0.0, pos.y), 0.5, 0.5, 0.1, 6, color);
+        DrawPoly(pos, 6, 0.5, 0.0, color);
 
         import std.stdio : writeln;
         foreach (i; 0 .. _roads.length)
@@ -41,7 +41,18 @@ void draw(Node n)
             {
                 Vector2 vertex = vertexPosition(cast(uint) i);
                 Vector2 vertex2 = vertexPosition(cast(uint) (i + 1) % 6);
-                DrawLine3D(Vector3(pos.x + vertex.x, 0.1, pos.y + vertex.y), Vector3(pos.x + vertex2.x, 0.1, pos.y + vertex2.y), Colors.BLUE);
+                //DrawLineEx(Vector2(pos.x + vertex.x, pos.y + vertex.y), Vector2(pos.x + vertex2.x, pos.y + vertex2.y), 0.2, Colors.BLUE);
+                DrawLineV(Vector2(pos.x + vertex.x, pos.y + vertex.y),Vector2(pos.x + vertex2.x, pos.y + vertex2.y), Colors.BLUE);
+
+                //DrawCircleV(roadMiddle(n, cast(uint) i), 0.1, Colors.MAROON);
+            }
+        }
+        foreach (i; 0 .. _buildings.length)
+        {
+            if (_buildings[i].player == 0 && _buildings[i].parents[0] == n)
+            {
+                Vector2 vertex = vertexPosition(cast(uint) i);
+                DrawCircleV(Vector2(pos.x + vertex.x, pos.y + vertex.y), 0.2, Colors.BLUE);
             }
         }
     }
@@ -59,9 +70,17 @@ Vector2 nodePosition(Node n)
     }
 }
 
+Vector2 roadMiddle(Node n, uint index)
+{
+    Vector2 pos = nodePosition(n);
+    Vector2 vertex1 = pos + vertexPosition(index);
+    Vector2 vertex2 = pos + vertexPosition((index + 1) % 6);
+    return Vector2((vertex1.x + vertex2.x) / 2, (vertex1.y + vertex2.y) / 2);
+}
+
 Vector2 vertexPosition(uint index)
 {
     import std.math : PI, sin, cos;
-    float rot = 2.0 * PI / 6.0 * (cast(float) index + 1) + 2.0 * PI / 12.0 + PI;
-    return Vector2(0.5 * cos(rot), 0.5 * sin(rot));
+    float rot = 2.0 * PI / 6.0 * (cast(float) index) - 2.0 * PI / 4.0;
+    return Vector2(0.58 * cos(rot), 0.58 * sin(rot));
 }
