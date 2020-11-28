@@ -1,6 +1,8 @@
 module node;
 
-import raylib;
+import dlib.core.ownership;
+import dlib.core.memory;
+
 import board;
 
 struct Road
@@ -22,7 +24,7 @@ struct Building
     Node[3] parents;
 }
 
-class Node
+class Node : Owner
 {
     enum Type
     {
@@ -38,6 +40,7 @@ class Node
 
     this(Board brd, uint[2] indices)
     {
+        super(brd);
         _board = brd;
         _indices = indices;
 
@@ -124,13 +127,13 @@ class Node
 
 unittest
 {
-    auto board = new Board(5, 5);
+    auto board = New!Board(5, 5);
     assert(board.nodes[0][0].neighbour(0) is null);
     assert(board.nodes[0][0].neighbour(1) == board.nodes[0][1]);
 }
 unittest
 {
-    auto board = new Board(5, 5);
+    auto board = New!Board(5, 5);
     board.nodes[0][0].addRoad(Road(2), 1);
     assert(board.nodes[0][1]._roads[4].player == 2);
 }

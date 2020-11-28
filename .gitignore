@@ -6,7 +6,7 @@ docs/
 kolonisten.so
 kolonisten.dylib
 kolonisten.dll
-kolonisten.a
+libkolonisten.a
 kolonisten.lib
 kolonisten-test-*
 *.exe

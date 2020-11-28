@@ -1,30 +1,45 @@
 module board;
 
-import raylib;
+import dlib.container;
+import dlib.core.memory;
+import dlib.core.ownership;
+
 import node;
 
-class Board
+
+class Board : Owner
 {
-    this(uint width, uint height)
+    this(uint width, uint height, Owner o = null)
     {
+        super(o);
         this.width = width;
         this.height = height;
-        nodes.length = height;
-        import std.range;// : iota, array;
-        import std.algorithm;//.iteration : map;
         import std.math : abs;
-
-        int mh = (-cast(int) height) / 2;
-        nodes = iota(height).map!(y => iota(width - abs(mh + cast(int) y)).map!(x => new Node(this,
-                [y, x])).array).array;
-
-        // Optimize
-        foreach (nds; nodes)
+        foreach (y; 0 .. height)
         {
-            roads ~= iota(nds.length * 2).map!(_ => Road()).array;
-            roads ~= iota(nds.length + 1).map!(_ => Road()).array;
+            Array!Node xArray;
+            int mh = (-cast(int) height) / 2;
+            foreach (x; 0 .. width - abs(mh + cast(int) y))
+            {
+                uint[2] indices = [y, x];
+                xArray.append(New!Node(this, indices));
+            }
+            nodes.append(xArray);
         }
-        roads ~= iota(nodes[0].length * 2).map!(_ => Road()).array;
+        // import std.range;// : iota, array;
+        // import std.algorithm;//.iteration : map;
+
+        // int mh = (-cast(int) height) / 2;
+        // nodes = iota(height).map!(y => iota(width - abs(mh + cast(int) y)).map!(x => new Node(this,
+        //         [y, x])).array).array;
+
+        // // Optimize
+        // foreach (nds; nodes)
+        // {
+        //     roads ~= iota(nds.length * 2).map!(_ => Road()).array;
+        //     roads ~= iota(nds.length + 1).map!(_ => Road()).array;
+        // }
+        // roads ~= iota(nodes[0].length * 2).map!(_ => Road()).array;
     }
 
     void update()
@@ -44,18 +59,18 @@ class Board
         assert(height & 1);
     }
 
-    Road[][] roads;
+    Array!(Array!Road) roads;
 
-    Node[][] nodes;
+    Array!(Array!Node) nodes;
     uint height;
     uint width;
-private:
-    uint nodeLength()
-    {
-        import std.algorithm.iteration : sum;
-        import std.range : iota;
+// private:
+//     uint nodeLength()
+//     {
+//         import std.algorithm.iteration : sum;
+//         import std.range : iota;
 
-        return width + iota(width - height / 2, width).sum * 2;
-    }
+//         return width + iota(width - height / 2, width).sum * 2;
+//     }
 
 }

@@ -2,18 +2,23 @@
 	"authors": [
 		"mauritsmlt"
 	],
-	"copyright": "Copyright © 2020, mauritsmlt",
-	"dependencies": {
-	},
-	"importPaths": ["source"],
-	"sourcePaths": ["source"],
 	"configurations": [
 		{
 			"name": "library",
 			"targetType": "library"
 		}
 	],
+	"copyright": "Copyright © 2020, mauritsmlt",
+	"dependencies": {
+		"dlib": "0.20.0"
+	},
 	"description": "A minimal D application.",
+	"importPaths": [
+		"source"
+	],
 	"license": "proprietary",
-	"name": "kolonisten"
+	"name": "kolonisten",
+	"sourcePaths": [
+		"source"
+	]
 }

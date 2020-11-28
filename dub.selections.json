@@ -4,6 +4,7 @@
 		"bindbc-loader": "0.3.2",
 		"bindbc-raylib": "0.9.0",
 		"ddmp": "0.0.1-0.dev.3",
+		"dlib": "0.20.0",
 		"fluent-asserts": "0.13.3",
 		"libdparse": "0.14.0",
 		"raylib-d": "3.0.3",
