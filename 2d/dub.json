@@ -4,16 +4,20 @@
 	],
 	"copyright": "Copyright © 2020, mauritsmlt",
 	"dependencies": {
+		"raylib-d": "~>3.0.3"
 	},
-	"importPaths": ["source"],
-	"sourcePaths": ["source"],
-	"configurations": [
-		{
-			"name": "library",
-			"targetType": "library"
-		}
+	"libs": [
+		"raylib"
+	],
+	"importPaths": [
+		"source",
+		"../source"
+	],
+	"sourcePaths": [
+		"source",
+		"../source"
 	],
 	"description": "A minimal D application.",
 	"license": "proprietary",
-	"name": "kolonisten"
+	"name": "2d"
 }

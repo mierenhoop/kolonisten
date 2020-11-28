@@ -8,6 +8,9 @@ void main()
 {
     auto brd = new Board(9, 9);
 
+    import std.algorithm;
+    brd.roads.each!((rds) { rds.each!(road => write(".")); writeln; });
+
     brd.nodes[2][3].addRoad(Road(0), 0);
     brd.nodes[2][3].addRoad(Road(0), 1);
     brd.nodes[2][3].addRoad(Road(0), 2);
