@@ -1,0 +1,21 @@
+{
+	"authors": [
+		"mier"
+	],
+	"copyright": "Copyright © 2020, mier",
+	"dependencies": {
+		"dlib": "~>0.20.0",
+		"dagon": "~>0.11.0"
+	},
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "3d",
+	"importPaths": [
+		"source",
+		"../source"
+	],
+	"sourcePaths": [
+		"source",
+		"../source"
+	]
+}

@@ -1,0 +1,7 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"dagon": "0.11.0",
+		"dlib": "0.20.0"
+	}
+}
