@@ -26,6 +26,19 @@ class Board : Owner
             }
             nodes.append(xArray);
         }
+
+        roads.resize(nodes.length * 2 + 1, Array!Road());
+        foreach (index; 0 .. nodes.length)
+        {
+            // roads[index * 2    ].resize(nodes[index].length * 2, Road());
+            Array!Road r1, r2;
+            r1.resize(nodes[index].length * 2, Road());
+            r2.resize(nodes[index].length + 1, Road());
+
+            roads[index * 2    ] = r1;
+            roads[index * 2 + 1] = r2;
+        }
+        roads[nodes.length * 2].resize(nodes[0].length * 2, Road());
         // import std.range;// : iota, array;
         // import std.algorithm;//.iteration : map;
 
@@ -60,6 +73,7 @@ class Board : Owner
     }
 
     Array!(Array!Road) roads;
+    Array!(Array!Building) buildings;
 
     Array!(Array!Node) nodes;
     uint height;

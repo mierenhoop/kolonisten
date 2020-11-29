@@ -86,43 +86,24 @@ class Node : Owner
     // Houses get indexed starting from the top going clockwise.
     void addBuilding(Building bdg, uint index)
     {
-        assert(bdg.player != -1);
-        if (_buildings[index].player == -1) {
-            bdg.parents[0] = this;
-            _buildings[index] = bdg;
-        }
-
-        auto nb1 = neighbour((index + 5) % 6);
-        auto nb2 = neighbour(index);
-        if (nb1 !is null) {
-            bdg.parents[1] = nb1;
-            nb1._buildings[(index + 3) % 6] = bdg;
-        }
-        if (nb2 !is null) {
-            bdg.parents[2] = nb2;
-            nb2._buildings[(index + 3) % 6] = bdg;
-        }
+        
     }
 
     void addRoad(Road road, uint index)
     {
-        assert(road.player != -1);
-        if (_roads[index].player == -1) {
-            road.parents[0] = this;
-            _roads[index] = road;
-        }
-
-        // If a neighbour exists, add road to it too.
-        // The road placed at the neighbour should be on the opposite side.
-        auto nb = neighbour(index);
-        if (nb !is null) {
-            road.parents[1] = nb;
-            nb._roads[(index + 3) % 6] = road;
+        road.parents[0] = this;
+        road.parents[1] = neighbour(index);
+        switch (index)
+        {
+        case 0: _board.roads[_indices[0] * 2    ][_indices[1] * 2 + 1] = road; break;
+        case 1: _board.roads[_indices[0] * 2 + 1][_indices[1]     + 1] = road; break;
+        case 2: _board.roads[_indices[0] * 2 + 2][_indices[1] * 2 + 2] = road; break;
+        case 3: _board.roads[_indices[0] * 2 + 2][_indices[1] * 2 + 1] = road; break;
+        case 4: _board.roads[_indices[0] * 2 + 1][_indices[1]        ] = road; break;
+        case 5: _board.roads[_indices[0] * 2    ][_indices[1] * 2    ] = road; break;
+        default: break;
         }
     }
-
-    Road[6] _roads;
-    Building[6] _buildings;
 }
 
 unittest
