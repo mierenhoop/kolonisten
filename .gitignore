@@ -11,5 +11,4 @@ kolonisten.lib
 kolonisten-test-*
 *.exe
 *.o
-*.obj
 *.lst

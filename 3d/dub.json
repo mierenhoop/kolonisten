@@ -10,6 +10,7 @@
 	"description": "A minimal D application.",
 	"license": "proprietary",
 	"name": "3d",
+	"libs": ["z"],
 	"importPaths": [
 		"source",
 		"../source"
