@@ -83,32 +83,72 @@ class MainScene : Scene
                         float) currentBoard.nodes.length / 2 + 0.5);
             }
         }
+        Material matRoad = addMaterial();
+        matRoad.diffuse = Color4f(0.0, 0.0, 1.0, 1.0);
+        writeln(currentBoard.nodes.length, " ", currentBoard.roads.length);
+        for (uint y = 0; y < currentBoard.roads.length; y++)
+        {
+            for (uint x = 0; x < currentBoard.roads[y].length; x++)
+            {
+                Road road = currentBoard.roads[y][x];
+                if (road.player == 0) continue;
+                Entity eRoad = addEntity();
+                eRoad.drawable = aRoad.mesh;
+                eRoad.material = matRoad;
+                if (y & 1)
+                {
+                    eRoad.position.x = 2 * (cast(float) x - cast(float) currentBoard.roads[y].length / 2 + 0.5);
+                    eRoad.position.z = 1.78 / 2 * (cast(float) y - cast(float) currentBoard.roads.length / 2 + 0.5);
+                }
+                else
+                {
+                    eRoad.position.x =  (cast(float) x - cast(float) currentBoard.roads[y].length / 2 + 0.5);
+                    eRoad.position.z = 1.78 / 2 * (cast(float) y - cast(float) currentBoard.roads.length / 2 + 0.5);
+                    if (y > currentBoard.nodes.length)
+                    {
+                        if (x & 1)
+                            eRoad.rotate(Vector3f(0.0, 120.0, 0.0));
+                        else
+                            eRoad.rotate(Vector3f(0.0, 60, 0));
+                    } else {
+                        if (x & 1)
+                            eRoad.rotate(Vector3f(0.0, -120.0, 0.0));
+                        else
+                            eRoad.rotate(Vector3f(0.0, -60, 0));
+                    }
+                }
+
+                eRoad.position.y = 0.0;
+            }
+        }
     }
 
     override void onMouseButtonUp(int button)
     {
         if (button == MB_LEFT)
         {
+            Vector3f intersect;
+            if(mouseRay().intersectSphere(Vector3f(0.0, 0.0, 0.0), 1.0, intersect))
+                writeln(intersect);
+            else writeln("no intersect");
         }
     }
 
     Ray mouseRay()
     {
-        Vector3f deviceCoords;
-        deviceCoords.x = (2.0f * eventManager.mouseX) / cast(float) game.width - 1.0f;
-        deviceCoords.y = 1.0f - (2.0f * eventManager.mouseY) / cast(float) game.height;
-        deviceCoords.z = 1.0f;
+        Vector3f rayNds;
+        rayNds.x = (2.0 * eventManager.mouseX) / cast(float) game.width - 1.0;
+        rayNds.y = 1.0 - (2.0 * eventManager.mouseY) / cast(float) game.height;
+        rayNds.z = 1.0;
+        Vector4f rayClip = Vector4f(rayNds.x, rayNds.y, -1.0, 1.0);
 
-        auto matViewProj = game.renderer.view.viewMatrix * game.renderer.view.projectionMatrix;
-        matViewProj.invert();
+        Vector4f rayEye = rayClip * game.renderer.view.projectionMatrix.inverse;
+        rayEye = Vector4f(rayEye.x, rayEye.y, -1.0, 0.0);
 
-        Vector3f unproject(float z)
-        {
-            Quaternionf quat = Quaternionf(deviceCoords.x, deviceCoords.y, z, 1.0f) * matViewProj;
-            return Vector3f(quat.x / quat.w, quat.y / quat.w, quat.z / quat.w);
-        }
-
-        return Ray(unproject(0.0), unproject(1.0));
+        Vector3f rayWor = Vector3f(rayEye * game.renderer.view.invViewMatrix);
+        rayWor.normalize();
+        writeln(rayWor);
+        return Ray();
     }
 
 }
